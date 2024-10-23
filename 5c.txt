@@ -1,0 +1,36 @@
+--Zad 5
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Ask','1','1399-01-04',21);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Brage','1','1400-05-17',20);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Eino','1','1401-07-22',19);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Erik','1','1400-11-30',20);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Haakon','1','1390-12-02',30);
+
+CREATE TABLE statek(
+    nazwaStatku VARCHAR(30) NOT NULL,
+    rodzajStatku ENUM('duzy', 'maly'),
+    dataWodowania DATE,
+    maxLadownosc INT UNSIGNED,
+    PRIMARY KEY (nazwaStatku)
+);
+
+INSERT INTO statek VALUES ('Statek no.1', 1, '1420-05-30', 5);
+INSERT INTO statek VALUES ('Statek no.2', 2, '1420-05-30', 3);
+
+ALTER TABLE postac ADD funkcja VARCHAR(30);
+
+UPDATE postac SET `funkcja`='kapitan' WHERE idPostac=1;
+
+ALTER TABLE postac ADD statek VARCHAR(30);
+ALTER TABLE postac ADD FOREIGN KEY (statek) REFERENCES statek(nazwaStatku);
+
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=1;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=2;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=4;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=5;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=6;
+UPDATE postac SET statek='Statek no.2' WHERE idPostac=7;
+UPDATE postac SET statek='Statek no.2' WHERE idPostac=8;
+
+DELETE FROM izba WHERE `adresBudynku`='Konopnicka 2' AND `nazwaIzby`='Spizarnia';
+
+DROP TABLE izba;

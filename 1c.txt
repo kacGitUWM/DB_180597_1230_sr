@@ -1,32 +1,14 @@
+--Zad 1
 CREATE TABLE postac(
-	idPostac int AUTO_INCREMENT NOT NULL,
-	nazwa varchar(40),
+	idPostac INT AUTO_INCREMENT NOT NULL,       
+	nazwa VARCHAR(40),
 	rodzaj ENUM('wiking', 'ptak', 'kobieta'),
-	dataUr date,
-	wiek int UNSIGNED,
+	dataUr DATE,
+	wiek INT UNSIGNED,
 	PRIMARY KEY(idPostac)
 );
 
 INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Bjorn','1','1400-01-20',20);
 INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Drozd','2','1419-02-10',1);
-INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Tesciowa','3','1300-03-01',100);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Tesciowa','3','1300-03-01',120);
 UPDATE postac SET `wiek`=88 WHERE idPostac=3;
-
-CREATE TABLE walizka(
-	idWalizka int AUTO_INCREMENT NOT NULL,
-	pojemnosc int UNSIGNED,
-	kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty'),
-	idWlasciciel int,
-	PRIMARY KEY(idWalizka),
-	FOREIGN KEY (idWlasciciel)
-        	REFERENCES postac(idPostac)
-        	ON DELETE CASCADE
-);
-
-ALTER TABLE walizka MODIFY COLUMN kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty') DEFAULT 'rozowy';
-INSERT INTO walizka (`pojemnosc`,`kolor`,`idWlasciciel`) VALUES (10,2,1);
-INSERT INTO walizka (`pojemnosc`,`idWlasciciel`) VALUES (100,3);
-
-CREATE TABLE izba(
-	id int AUTO_INCREMENT NOT NULL,
-);
