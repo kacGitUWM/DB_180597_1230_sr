@@ -1,0 +1,15 @@
+--Zad 2
+CREATE TABLE walizka(
+	idWalizka INT AUTO_INCREMENT NOT NULL,
+	pojemnosc INT UNSIGNED,
+	kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty'),
+	idWlasciciel INT,
+	PRIMARY KEY(idWalizka),
+	FOREIGN KEY (idWlasciciel)
+        	REFERENCES postac(idPostac)
+        	ON DELETE CASCADE
+);
+
+ALTER TABLE walizka MODIFY COLUMN kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty') DEFAULT 'rozowy';
+INSERT INTO walizka (`pojemnosc`,`kolor`,`idWlasciciel`) VALUES (10,2,1);
+INSERT INTO walizka (`pojemnosc`,`idWlasciciel`) VALUES (100,3);

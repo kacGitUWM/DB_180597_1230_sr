@@ -1,0 +1,14 @@
+--Zad 3
+CREATE TABLE izba(
+    adresBudynku VARCHAR(30) NOT NULL,
+    nazwaIzby VARCHAR(30) NOT NULL,
+    metraz INT UNSIGNED,
+    wlasciciel INT,
+    PRIMARY KEY (adresBudynku, nazwaIzby),  
+    FOREIGN KEY (wlasciciel)
+        REFERENCES postac(idPostac)
+        ON DELETE SET NULL
+);
+
+ALTER TABLE izba ADD kolor VARCHAR(30) DEFAULT 'Czarny' AFTER metraz;
+INSERT INTO izba VALUES ("Konopnicka 2", "Spizarnia", 10, "Czerwony", 1);
