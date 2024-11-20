@@ -1,0 +1,39 @@
+-- Zad 1
+
+SELECT AVG(`waga`) FROM kreatura WHERE `rodzaj`='wiking';
+
+SELECT `rodzaj`, AVG(`waga`), COUNT(`idKreatury`) FROM kreatura GROUP BY `rodzaj`;
+
+SELECT `rodzaj`, AVG(YEAR(CURDATE())-YEAR(dataUR)) AS 'AVG wiek' FROM kreatura GROUP BY `rodzaj`;
+--SELECT `rodzaj`, AVG((CURDATE()-dataUR)/10000) AS 'AVG wiek' FROM kreatura GROUP BY `rodzaj`;
+
+####################################################################################################
+
+-- Zad 2
+
+--SELECT `nazwa`, SUM(`waga`) FROM zasob GROUP BY `nazwa`;
+SELECT `rodzaj`, SUM(`waga`) FROM zasob GROUP BY `rodzaj`;
+
+SELECT `nazwa`, AVG(`waga`) FROM zasob GROUP BY `nazwa` HAVING SUM(`waga`)>10 AND COUNT(`idZasobu`)>=4;
+
+SELECT `rodzaj`, COUNT(DISTINCT `nazwa`) FROM zasob GROUP BY `rodzaj`;
+
+####################################################################################################
+
+-- Zad 3
+
+SELECT t1.nazwa, SUM(t2.ilosc) FROM kreatura t1 JOIN ekwipunek t2 ON t1.idKreatury=t2.idKreatury GROUP BY t1.nazwa;
+
+SELECT t1.nazwa, t3.nazwa FROM kreatura t1 JOIN ekwipunek t2 ON t1.idKreatury=t2.idKreatury JOIN zasob t3 ON t2.idZasobu=t3.idZasobu ORDER BY t1.nazwa;
+
+SELECT t1.nazwa FROM kreatura t1 LEFT JOIN ekwipunek t2 ON t1.idKreatury=t2.idKreatury LEFT JOIN zasob t3 ON t2.idZasobu=t3.idZasobu WHERE t3.nazwa IS NULL ORDER BY t1.nazwa;
+
+####################################################################################################
+
+-- Zad 4
+ekwipunek t2 NATURAL JOIN
+SELECT * FROM kreatura t1 NATURAL JOIN ekwipunek t2 NATURAL JOIN ekwipunek t3 WHERE t1.`dataUR` BETWEEN '1669-12-31' AND '1680-01-01';
+
+select * from kreatura;
+select * from ekwipunek;
+select * from zasob;
