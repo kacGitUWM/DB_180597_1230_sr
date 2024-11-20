@@ -50,10 +50,4 @@ SELECT CONCAT(`nazwa`, ' - ', `rodzaj`) FROM `kreatura` WHERE `rodzaj` LIKE 'wi%
 SELECT `nazwa`, `waga`*`ilosc`, `dataPozyskania` FROM `zasob` WHERE YEAR(`dataPozyskania`) BETWEEN 1999 AND 2008;
 
 
-
-
-
-
-select * from kreatura;
-select * from zasob;
-select * from ekwipunek;
+-- 5 >> 20.11.2024
