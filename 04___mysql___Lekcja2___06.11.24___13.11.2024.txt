@@ -1,0 +1,93 @@
+#########################################
+#					#
+#		06.11.2024		#
+#					#
+#########################################
+
+-- Zad 1
+
+SELECT * FROM `postac` WHERE `rodzaj` = 'wiking' AND `nazwa` != 'Bjorn' ORDER BY `dataUr` LIMIT 2;
+DELETE FROM `postac` WHERE `rodzaj` = 'wiking' AND `nazwa` != 'Bjorn' ORDER BY `dataUr` LIMIT 2;
+
+
+ALTER TABLE `walizka` DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE `walizka` DROP `idWlasciciel`;
+ALTER TABLE `przetwory` DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE `przetwory` DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE `przetwory` DROP `idWykonawca`;
+ALTER TABLE `przetwory` DROP `idKonsument`;
+ALTER TABLE `postac` DROP `idPostac`;
+
+####################################################################################################
+
+-- Zad 2
+
+--ALTER TABLE `postac` ADD pesel VARCHAR(11) UNIQUE NOT NULL;
+
+ALTER TABLE `postac` ADD pesel VARCHAR(11) NOT NULL;
+UPDATE `postac` SET `pesel`='00012001211' WHERE `nazwa`='Bjorn' limit 1;
+UPDATE `postac` SET `pesel`='19021034512' WHERE `nazwa`='Drozd' limit 1;
+UPDATE `postac` SET `pesel`='03030167823' WHERE `nazwa`='Tesciowa' limit 1;
+UPDATE `postac` SET `pesel`='00051790114' WHERE `nazwa`='Brage' limit 1;
+UPDATE `postac` SET `pesel`='01072223415' WHERE `nazwa`='Eino' limit 1;
+UPDATE `postac` SET `pesel`='00113056716' WHERE `nazwa`='Erik' limit 1;
+ALTER TABLE `postac` ADD PRIMARY KEY (`pesel`);
+
+ALTER TABLE `postac` MODIFY `rodzaj` ENUM('wiking','ptak','kobieta','syrena');
+
+INSERT INTO `postac` VALUES ('Getruda Nieszczera', 'syrena', '1200-01-01', 220, NULL, NULL, '00010121327');
+
+####################################################################################################
+
+-- Zad 3
+
+UPDATE `postac` SET `statek`='Statek no.:1' WHERE `nazwa` LIKE '%a%' AND `rodzaj` = 'wiking';
+
+--UPDATE `statek` SET `maxLadownosc`=5 WHERE `nazwaStatku`='Statek no.:1';
+--UPDATE `statek` SET `maxLadownosc`=3 WHERE `nazwaStatku`='Statek no.:2';
+--UPDATE `statek` SET `maxLadownosc`=`maxLadownosc`*0.7
+UPDATE `statek` SET `maxLadownosc`=(`maxLadownosc`/10)*7 WHERE year(`dataWodowania`) BETWEEN 1901 AND 2000;
+
+ALTER TABLE `postac` ADD CONSTRAINT max_wiek CHECK(`wiek` < 1000);
+
+#########################################
+#					#
+#		13.11.2024		#
+#					#
+#########################################
+
+-- Zad 4
+
+INSERT INTO `postac` VALUES ('Loko', NULL, '1000-10-10', 420, NULL, NULL, 00101098768);
+
+CREATE TABLE `marynarz` AS SELECT * FROM `postac` WHERE `statek` IS NOT NULL;
+DELETE FROM `postac` WHERE `statek` IS NOT NULL;
+
+ALTER TABLE `marynarz` ADD FOREIGN KEY (`statek`) REFERENCES `statek` (`nazwaStatku`);
+ALTER TABLE `marynarz` ADD PRIMARY KEY (`pesel`);
+
+####################################################################################################
+
+-- Zad 5
+
+UPDATE `marynarz` SET `statek`=NULL;
+
+DELETE FROM `marynarz` WHERE `nazwa`='Erik';
+
+DELETE FROM `statek`;
+
+ALTER TABLE `postac` DROP FOREIGN KEY postac_ibfk_1;
+ALTER TABLE `marynarz` DROP FOREIGN KEY marynarz_ibfk_1;
+ALTER TABLE `postac` DROP `statek`;
+ALTER TABLE `marynarz` DROP `statek`;
+DROP TABLE `statek`;
+
+CREATE TABLE `zwierz`(
+	id INT UNSIGNED AUTO_INCREMENT NOT NULL UNIQUE,
+	nazwa VARCHAR(30),
+	wiek INT,
+	PRIMARY KEY(id)
+);
+
+INSERT INTO `zwierz` (`nazwa`,`wiek`) SELECT `nazwa`, `wiek` FROM `postac` WHERE `nazwa`='Loko';
+INSERT INTO `zwierz` (`nazwa`,`wiek`) SELECT `nazwa`, `wiek` FROM `marynarz` WHERE `nazwa`='Drozd';
