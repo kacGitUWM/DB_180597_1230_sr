@@ -1,0 +1,140 @@
+#########################################
+#					#
+#		23.10.2024		#
+#					#
+#########################################
+-- Zad 0
+
+CREATE TABLE pracownik(
+	id int AUTO_INCREMENT,
+	nazwisko varchar(30) NOT NULL,
+	imie varchar(30),
+	tel varchar(12),
+	stanowisko int,
+	PRIMARY KEY (id),
+	FOREIGN KEY (stanowisko) REFERENCES stanowisko(id)
+);
+
+CREATE TABLE stanowisko(
+	id int AUTO_INCREMENT,
+	nazwa varchar(30) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+
+INSERT INTO stanowisko VALUES (1,'programista');
+INSERT INTO stanowisko VALUES (2,'admin');
+INSERT INTO pracownik VALUES (1,'Alfred','Benkowski','123 456 789',1);
+INSERT INTO pracownik (`nazwisko`,`tel`,`stanowisko`) VALUES ('Anonimek','+48111222333',2);
+UPDATE pracownik SET `imie`='Noll' WHERE id=2;
+
+####################################################################################################
+
+-- Zad 2
+
+CREATE TABLE postac(
+	idPostac INT AUTO_INCREMENT NOT NULL,       
+	nazwa VARCHAR(40),
+	rodzaj ENUM('wiking', 'ptak', 'kobieta'),
+	dataUr DATE,
+	wiek INT UNSIGNED,
+	PRIMARY KEY(idPostac)
+);
+
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Bjorn','1','1400-01-20',20);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Drozd','2','1419-02-10',1);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Tesciowa','3','1300-03-01',120);
+UPDATE postac SET `wiek`=88 WHERE idPostac=3;
+
+####################################################################################################
+
+--Zad 2
+CREATE TABLE walizka(
+	idWalizka INT AUTO_INCREMENT NOT NULL,
+	pojemnosc INT UNSIGNED,
+	kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty'),
+	idWlasciciel INT,
+	PRIMARY KEY(idWalizka),
+	FOREIGN KEY (idWlasciciel)
+        	REFERENCES postac(idPostac)
+        	ON DELETE CASCADE
+);
+
+ALTER TABLE walizka MODIFY COLUMN kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty') DEFAULT 'rozowy';
+INSERT INTO walizka (`pojemnosc`,`kolor`,`idWlasciciel`) VALUES (10,2,1);
+INSERT INTO walizka (`pojemnosc`,`idWlasciciel`) VALUES (100,3);
+
+####################################################################################################
+
+--Zad 3
+CREATE TABLE izba(
+    adresBudynku VARCHAR(30) NOT NULL,
+    nazwaIzby VARCHAR(30) NOT NULL,
+    metraz INT UNSIGNED,
+    wlasciciel INT,
+    PRIMARY KEY (adresBudynku, nazwaIzby),
+    FOREIGN KEY (wlasciciel)
+        REFERENCES postac(idPostac)
+        ON DELETE SET NULL
+);
+
+ALTER TABLE izba ADD kolor VARCHAR(30) DEFAULT 'Czarny' AFTER metraz;
+INSERT INTO izba VALUES ("Konopnicka 2", "Spizarnia", 10, "Czerwony", 1);
+
+####################################################################################################
+
+--Zad 4
+CREATE TABLE przetwory(
+    idPrzetwor INT NOT NULL AUTO_INCREMENT,
+    rokProdukcji INT DEFAULT 1654,
+    idWykonawca INT,
+    zawartosc VARCHAR(30),
+    dodatek VARCHAR(30) DEFAULT "Papryczka chilli",
+    idKonsument INT,
+    PRIMARY KEY (idPrzetwor),
+    FOREIGN KEY (idWykonawca)
+        REFERENCES postac(idPostac),
+    FOREIGN KEY (idKonsument)
+        REFERENCES postac(idPostac)
+);
+
+INSERT INTO przetwory (`rokProdukcji`, `idWykonawca`, `zawartosc`, `idKonsument`) VALUES (1418, 1, "Bigos", 3);
+
+####################################################################################################
+
+--Zad 5
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Ask','1','1399-01-04',21);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Brage','1','1400-05-17',20);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Eino','1','1401-07-22',19);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Erik','1','1400-11-30',20);
+INSERT INTO postac (`nazwa`,`rodzaj`,`dataUR`,`wiek`) VALUES ('Haakon','1','1390-12-02',30);
+
+CREATE TABLE statek(
+    nazwaStatku VARCHAR(30) NOT NULL,
+    rodzajStatku ENUM('duzy', 'maly'),
+    dataWodowania DATE,
+    maxLadownosc INT UNSIGNED,
+    PRIMARY KEY (nazwaStatku)
+);
+
+INSERT INTO statek VALUES ('Statek no.1', 1, '1420-05-30', 5);
+INSERT INTO statek VALUES ('Statek no.2', 2, '1420-05-30', 3);
+
+ALTER TABLE postac ADD funkcja VARCHAR(30);
+
+UPDATE postac SET `funkcja`='kapitan' WHERE idPostac=1;
+
+ALTER TABLE postac ADD statek VARCHAR(30);
+ALTER TABLE postac ADD FOREIGN KEY (statek) REFERENCES statek(nazwaStatku);
+
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=1;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=2;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=4;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=5;
+UPDATE postac SET statek='Statek no.1' WHERE idPostac=6;
+UPDATE postac SET statek='Statek no.2' WHERE idPostac=7;
+UPDATE postac SET statek='Statek no.2' WHERE idPostac=8;
+
+DELETE FROM izba WHERE `adresBudynku`='Konopnicka 2' AND `nazwaIzby`='Spizarnia';
+
+DROP TABLE izba;
