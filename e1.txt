@@ -1,9 +1,0 @@
--- 1,2,3,4 << 13.11.2024
-
-####################################################################################################
-
-SELECT nazwa, SUM((`waga`*`ilosc`)*0.7) AS 'netto', SUM((`waga`*`ilosc`)*0.3) AS 'odpad' FROM zasob WHERE `rodzaj`='jedzenie' GROUP BY nazwa;
-
-SELECT * FROM zasob WHERE `rodzaj` IS NULL;
-
-SELECT `nazwa` FROM zasob WHERE `nazwa` LIKE 'Ba%' OR `nazwa` LIKE '%os' GROUP BY `nazwa` ORDER BY `nazwa`;
